@@ -1,130 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     SPDX-FileCopyrightText: 2016-2025 crDroid Android Project
-     SPDX-License-Identifier: Apache-2.0
+/**
+ * Copyright (c) 2009, The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 -->
-<resources>
 
-    <!-- Name of a font family to use as light font. For theming purpose. -->
-    <string name="config_lightFontFamily" translatable="false">sans-serif-light</string>
+<!-- These resources are around just to allow their values to be customized
+     for different hardware and product builds.  Do not translate. -->
 
-    <!-- Name of a font family to use as regular font. For theming purpose. -->
-    <string name="config_regularFontFamily" translatable="false">sans-serif-regular</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Is the notification LED intrusive? Used to decide if there should be a disable option -->
+    <bool name="config_intrusiveNotificationLed">true</bool>
 
-    <!-- Whether device has dash charging support -->
-    <bool name="config_hasDashCharger">false</bool>
+    <!-- Indicate whether to allow the device to suspend when the screen is off
+         due to the proximity sensor.  This resource should only be set to true
+         if the sensor HAL correctly handles the proximity sensor as a wake-up source.
+         Otherwise, the device may fail to wake out of suspend reliably.
+         The default is false. -->
+    <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
 
-    <!-- Whether device has warp charging support -->
-    <bool name="config_hasWarpCharger">false</bool>
+    <!-- Flag indicating whether the we should enable the automatic brightness in Settings.
+         Software implementation will be used if config_hardware_auto_brightness_available is not set -->
+    <bool name="config_automatic_brightness_available">true</bool>
 
-    <!-- Whether device has VOOC charging support -->
-    <bool name="config_hasVoocCharger">false</bool>
+    <!-- Fast brightness animation ramp rate in brightness units per second-->
+    <integer translatable="false" name="config_brightness_ramp_rate_fast">200</integer>
 
-    <!-- Whether device has turbo power charging support -->
-    <bool name="config_hasTurboPowerCharger">false</bool>
+    <!-- Slow brightness animation ramp rate in brightness units per second-->
+    <integer translatable="false" name="config_brightness_ramp_rate_slow">1</integer>
 
-    <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
-    <string name="config_oemFastChargerStatusPath" translatable="false"></string>
+    <!-- Array of light sensor LUX values to define our levels for auto backlight brightness support.
+         The N entries of this array define N  1 zones as follows:
 
-    <!-- Path to fast charging status file to detect whether an oem fast charger is active -->
-    <string name="config_oemFastChargerStatusPath2" translatable="false"></string>
+         Zone 0:        0 <= LUX < array[0]
+         Zone 1:        array[0] <= LUX < array[1]
+         ...
+         Zone N:        array[N - 1] <= LUX < array[N]
+         Zone N + 1     array[N] <= LUX < infinity
 
-    <!-- Expected value from fast charging status file  -->
-    <string name="config_oemFastChargerStatusValue" translatable="false">1</string>
+         Must be overridden in platform specific overlays -->
+    <integer-array name="config_autoBrightnessLevels">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>10</item>
+        <item>12</item>
+        <item>15</item>
+        <item>18</item>
+        <item>22</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>70</item>
+        <item>150</item>
+        <item>300</item>
+        <item>400</item>
+        <item>520</item>
+        <item>600</item>
+        <item>700</item>
+        <item>900</item>
+        <item>1100</item>
+        <item>1200</item>
+        <item>1300</item>
+        <item>1500</item>
+        <item>1800</item>
+        <item>2400</item>
+        <item>2800</item>
+        <item>3500</item>
+        <item>4000</item>
+    </integer-array>
 
-    <!-- Whether devices suports in-display fingerprint when screen is off -->
-    <bool name="config_supportScreenOffUdfps">false</bool>
+    <!-- Array of output values for LCD backlight corresponding to the LUX values
+         in the config_autoBrightnessLevels array.  This array should have size one greater
+         than the size of the config_autoBrightnessLevels array.
+         This must be overridden in platform specific overlays -->
+    <integer-array name="config_autoBrightnessLcdBacklightValues">
+        <item>3</item>
+        <item>3</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>9</item>
+        <item>12</item>
+        <item>15</item>
+        <item>17</item>
+        <item>18</item>
+        <item>20</item>
+        <item>22</item>
+        <item>29</item>
+        <item>37</item>
+        <item>50</item>
+        <item>50</item>
+        <item>50</item>
+        <item>50</item>
+        <item>55</item>
+        <item>62</item>
+        <item>62</item>
+        <item>72</item>
+        <item>76</item>
+        <item>82</item>
+        <item>90</item>
+        <item>101</item>
+        <item>105</item>
+        <item>110</item>
+        <item>119</item>
+        <item>143</item>
+        <item>190</item>
+        <item>214</item>
+        <item>240</item>
+        <item>255</item>
+    </integer-array>
 
-    <!-- Any package that has one of the package names defined below will be prevented
-       from using specific sensors in order to stop battery drain -->
-    <string-array name="config_blockPackagesSensorDrain">
-        <item>com.whatsapp</item>
-        <item>com.gbwhatsapp</item>
-        <item>com.yowhatsapp</item>
-        <item>com.whatsapp.plus</item>
-        <item>org.telegram.messenger</item>
-        <item>org.telegram.messenger.plus</item>
-        <item>com.netease.cloudmusic</item>
-        <item>fm.xiami.main</item>
-        <item>com.netease.snailread</item>
-        <item>com.baidu.browser.apps</item>
-        <item>org.thunderdog.challegram</item>
-        <item>com.snapchat.android</item>
-        <item>com.facebook.orca</item>
-        <item>com.Slack</item>
-        <item>tugapower.codeaurora.browser</item>
-        <item>org.mozilla.firefox</item>
-        <item>com.android.chrome</item>
-        <item>com.amazon.mShop.android.shopping</item>
-        <item>com.google.android.inputmethod.latin</item>
-        <item>com.google.android.apps.plus</item>
-        <item>com.google.android.apps.maps</item>
-        <item>ru.ok.android</item>
-        <item>com.instagram.android.MainTabActivity</item>
-        <item>com.facebook.orca</item>
-        <item>com.facebook.orca.StartScreenActivity</item>
-        <item>com.spotify.music</item>
-        <item>com.spotify.music.MainActivity</item>
-        <item>com.android.vending</item>
-        <item>com.trtf.blue</item>
-        <item>com.truecaller</item>
-        <item>com.gaana</item>
-        <item>com.facebook.katana.LoginActivity</item>
-    </string-array>
+    <!-- Screen brightness used to dim the screen when the user activity
+         timeout expires.  May be less than the minimum allowed brightness setting
+         that can be set by the user. -->
+    <integer name="config_screenBrightnessDim">1</integer>
 
-    <!-- Whether device has physical tri state switch -->
-    <bool name="config_hasAlertSlider">false</bool>
+    <!-- Screen brightness used to dim the screen while dozing in a very low power state.
+         May be less than the minimum allowed brightness setting
+         that can be set by the user. -->
+    <integer name="config_screenBrightnessDoze">7</integer>
 
-    <!-- Defines the sysfs attribute path used by pocket bridge
-         to communicate pocket state to the pocket judge kernel driver. -->
-    <string name="config_pocketBridgeSysfsInpocket"></string>
+    <!-- Default screen brightness setting.
+         Must be in the range specified by minimum and maximum. -->
+    <integer name="config_screenBrightnessSettingDefault">128</integer>
 
-    <!-- Pocket Lock -->
-    <bool name="config_pocketModeSupported">true</bool>
-    <bool name="config_pocketUseLightSensor">true</bool>
+    <!-- Minimum screen brightness setting allowed by the power manager.
+         The user is forbidden from setting the brightness below this level. -->
+    <integer name="config_screenBrightnessSettingMinimum">1</integer>
 
-    <!-- Defines custom OEM sensor for pocket detection. -->
-    <string name="config_pocketJudgeVendorSensorName"></string>
-    <item name="config_pocketJudgeVendorSensorValue" format="float" type="dimen">1.0</item>
-    <string name="config_pocketJudgeVendorProximitySensorName"></string>
+    <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
+         for debouncing the light sensor.  Different constants are used to debounce the light sensor
+         when adapting to brighter or darker environments.  This parameter controls how quickly
+         brightness changes occur in response to an observed change in light level that exceeds the
+         hysteresis threshold. -->
+    <integer name="config_autoBrightnessBrighteningLightDebounce">2000</integer>
+    <integer name="config_autoBrightnessDarkeningLightDebounce">6000</integer>
 
-    <!-- Whether device supports sensor based doze customizations -->
-    <bool name="config_dozePulseTilt">false</bool>
-    <bool name="config_dozePulseProximity">false</bool>
-    <bool name="config_deviceHaveWakeUpProximity">false</bool>
+    <!-- The maximum range of gamma adjustment possible using the screen
+         auto-brightness adjustment setting. -->
+    <fraction name="config_autoBrightnessAdjustmentMaxGamma">200%</fraction>
 
-    <!-- Whether doze feature is enabled by default in settings -->
-    <bool name="config_doze_enabled_by_default">false</bool>
+    <!-- Period of time in which to consider light samples in milliseconds. -->
+    <integer name="config_autoBrightnessAmbientLightHorizon">16000</integer>
 
-    <!-- Whether the device supports Smart Pixels -->
-    <bool name="config_supportSmartPixels">false</bool>
+    <!-- User activity timeout: Maximum screen dim duration as a percentage of screen off timeout.
 
-    <!-- Define device configs on boot -->
-    <string-array name="global_device_configs_override" translatable="false">
-    </string-array>
-    <string-array name="device_configs_override" translatable="false">
-    </string-array>
+         This resource is similar to config_maximumScreenDimDuration but the maximum
+         screen dim duration is defined as a ratio of the overall screen off timeout
+         instead of as an absolute value in milliseconds.  This is useful for reducing
+         the dim duration when the screen off timeout is very short.
 
-    <!-- Whether to cancel fingerprint operation if not idle -->
-    <bool name="config_fpCancelIfNotIdle">false</bool>
+         When computing the screen dim duration, the power manager uses the lesser
+         of the effective durations expressed by config_maximumScreenDimDuration and
+         config_maximumScreenDimRatio.
 
-  <!-- List of system apps that are allowed to be locked with app lock.
-        Use with extreme caution. -->
-  <string-array name="config_appLockAllowedSystemApps" translatable="false" />
+         This value must be between 0% and 100%.  If the value is zero, the screen will not
+         dim before the device goes to sleep.
+    -->
+    <fraction name="config_maximumScreenDimRatio">29.999996%</fraction>
 
-    <!-- Keybox configuration for device certification -->
-    <string-array name="config_certifiedKeybox" translatable="false">
-      <!--
-        Keybox entries for EC and RSA keys and certificates.
-        These should be populated with valid data for device certification.
-        <item>EC.PRIV:</item>
-        <item>EC.CERT_1:</item>
-        <item>EC.CERT_2:</item>
-        <item>EC.CERT_3:</item>
-        <item>RSA.PRIV:</item>
-        <item>RSA.CERT_1:</item>
-        <item>RSA.CERT_2:</item>
-        <item>RSA.CERT_3:</item>
-      -->
-    </string-array>
+    <!-- The bounding path of the cutout region of the main built-in display.
+         Must either be empty if there is no cutout region, or a string that is parsable by
+         {@link android.util.PathParser}.
+
+         The path is assumed to be specified in display coordinates with pixel units and in
+         the display's native orientation, with the origin of the coordinate system at the
+         center top of the display.
+
+         To facilitate writing device-independent emulation overlays, the marker `@dp` can be
+         appended after the path string to interpret coordinates in dp instead of px units.
+         Note that a physical cutout should be configured in pixels for the best results.
+         -->
+    <string translatable="false" name="config_mainBuiltInDisplayCutout">
+        M295,0
+        295.818519,24.176374
+        C285.295731,69.8076784 267.243762,88 236.156733,88
+        L0,88
+        L-236.156733,88
+        C-267.243762,88 -285.295731,69.8076784 -295.818519,24.176374
+        L-295,0
+        Z
+    </string>
+
+    <!-- Height of the status bar -->
+    <dimen name="status_bar_height_portrait">88.0px</dimen>
+    <dimen name="status_bar_height_landscape">24.0dp</dimen>
+
+    <!-- Control whether the always on display mode is available. This should only be enabled on
+         devices where the display has been tuned to be power efficient in DOZE and/or DOZE_SUSPEND
+         states. -->
+    <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
+
+    <!-- Control whether the always on display mode is enabled by default. This value will be used
+         during initialization when the setting is still null. -->
+    <bool name="config_dozeAlwaysOnEnabled">false</bool>
+
+    <!-- Whether the display blanks itself when transitioning from a doze to a non-doze state -->
+    <bool name="config_displayBlanksAfterDoze">true</bool>
+
+    <!-- Type of the udfps long press sensor. Empty if long press is not supported. -->
+    <string name="config_dozeUdfpsLongPressSensorType" translatable="false">org.lineageos.sensor.udfps</string>
 </resources>
